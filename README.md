@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
     subgraph IMG["Image branch"]
         direction TB
@@ -16,3 +17,4 @@ flowchart TD
     class I1,I2,I3,I4 img
     class T1,T2,T3 txt
     class M,D,O merge
+```
