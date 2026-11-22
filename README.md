@@ -14,14 +14,10 @@ An end-to-end image captioning system that looks at a photo and writes a one-sen
 - [Project overview](#project-overview)
 - [Model architecture](#model-architecture)
 - [Dataset](#dataset)
-- [Project structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
 - [Training details](#training-details)
 - [Results](#results)
 - [Limitations and future work](#limitations-and-future-work)
 - [Acknowledgements](#acknowledgements)
-- [License](#license)
 
 ---
 
@@ -125,104 +121,13 @@ flowchart TD
 
 This project uses **Flickr8k**: 8,091 images, each with 5 human-written captions (40,455 captions in total).
 
-Download it from Kaggle: [adityajn105/flickr8k](https://www.kaggle.com/datasets/adityajn105/flickr8k). After extracting, you need an `Images/` folder and a `captions.txt` file.
-
-Place them like this:
-
-```
-data/
-├── Images/
-└── captions.txt
-```
-
-The dataset is not included in this repository.
+Download it from Kaggle: [adityajn105/flickr8k](https://www.kaggle.com/datasets/adityajn105/flickr8k).
 
 | Split | Images | Share |
 | --- | ---: | ---: |
 | Train | 6,877 | 85% |
 | Validation | 1,092 | 13.5% |
 | Test | 122 | 1.5% |
-
----
-
-## Project structure
-
-```
-image-captioning/
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── notebooks/
-│   └── main.ipynb          # full walkthrough with outputs and plots
-├── src/
-│   ├── config.py           # paths and hyperparameters
-│   ├── data.py             # load, clean, tokenize, split, data generator
-│   ├── features.py         # InceptionV3 feature extraction
-│   ├── model.py            # build_model
-│   ├── train.py            # training loop, callbacks, LR schedule
-│   ├── inference.py        # greedy and beam-search captioning
-│   └── evaluate.py         # BLEU scoring
-├── data/                   # Flickr8k goes here (not committed)
-├── artifacts/              # features, tokenizer, trained model (not committed)
-└── assets/                 # sample outputs and diagrams for the README
-```
-
-The notebook contains the complete experiment with saved outputs. The `src/` package is the same logic split into reusable modules.
-
----
-
-## Installation
-
-```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
-
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS / Linux
-source .venv/bin/activate
-
-pip install -r requirements.txt
-```
-
-**Requirements:** `tensorflow` (2.16 or newer, for the `.keras` model format), `numpy`, `scikit-learn`, `nltk`, `matplotlib`, `seaborn`, `pillow`, `tqdm`.
-
-A GPU is strongly recommended for training. The model in this repo was trained on Google Colab.
-
----
-
-## Usage
-
-Run the steps in order from the repository root.
-
-**1. Extract image features** (one-time step, saves features and the tokenizer to `artifacts/`):
-
-```bash
-python -m src.features
-```
-
-**2. Train the model:**
-
-```bash
-python -m src.train
-```
-
-**3. Evaluate on the test split** (BLEU-1 and BLEU-2 for greedy and beam search):
-
-```bash
-python -m src.evaluate
-```
-
-**4. Caption your own image:**
-
-```bash
-python -m src.inference --image path/to/photo.jpg --method beam --beams 3
-```
-
-Use `--method greedy` for faster, simpler decoding.
-
-You can also open `notebooks/main.ipynb` to run everything interactively.
 
 ---
 
@@ -246,16 +151,8 @@ Evaluation uses BLEU-1 and BLEU-2 against the five reference captions of each te
 
 | Decoding | BLEU-1 | BLEU-2 |
 | --- | ---: | ---: |
-| Greedy search | TBD | TBD |
-| Beam search (K = 3) | TBD | TBD |
-
-### Sample outputs
-
-Add a screenshot of your generated captions here:
-
-```markdown
-![Sample captions](assets/sample_outputs.png)
-```
+| Greedy search | 0.5813 | 0.4069 |
+| Beam search (K = 3) | 0.6129 | 0.4312 |
 
 ---
 
@@ -283,7 +180,3 @@ Ideas for improvement:
 - Inspired by *Show and Tell: A Neural Image Caption Generator* (Vinyals et al., 2015)
 
 ---
-
-## License
-
-This project is released under the MIT License. See [LICENSE](LICENSE) for details.
